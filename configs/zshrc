@@ -2,7 +2,7 @@ export TERM="xterm-256color"
 export ZSH=/home/op/.oh-my-zsh
 
 ZSH_THEME="mrtazz"
-plugins=(dircycle github z autojump rails archlinux zsh-navigation-tools docker vagrant cp ruby)
+plugins=(dircycle github z autojump rails archlinux zsh-autosuggestions last-working-dir zsh-navigation-tools docker vagrant cp ruby)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.profile
@@ -82,10 +82,86 @@ export DIRS_SMALL="/home/op/lists/seclists/Discovery/Web-Content/raft-small-dire
 export FILES_LARGE="/home/op/lists/seclists/Discovery/Web-Content/raft-large-files.txt"
 export FILES_SMALL="/home/op/lists/seclists/Discovery/Web-Content/raft-small-files.txt"
 
+# cheat autocompletion; just add to ~/.zshrc
+ _cmpl_cheat() {
+ reply=($(cheat -l | cut -d' ' -f1))
+ }
+ compctl -K _cmpl_cheat cheat
+
+#Autocompletion gf tool from tomnomnom
+_cmpl_gf() {
+	reply=($(ls $GOPATH/src/github.com/tomnomnom/gf/examples | cut -f1 -d"."))
+}
+compctl -K _cmpl_gf gf
+
+# ex - archive extractor
+# usage: ex <file>
+ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.tar.xz)    tar xvf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       rar x $1   ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *.tgz)       tar xvzf $1  ;;
+      *.lrz)       lrzuntar $1  ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
 alias ls=" ls --color -sh"
 alias wclone="wget -H -p -k"
 alias vim="nvim"
 alias nmap="grc nmap"
+
+alias zshr="source ~/.zshrc"
+alias zshc="vi ~/.zshrc"
+alias myip="curl ipinfo.io"
+alias diff="diff -y"
+alias web="sudo python2 -m SimpleHTTPServer 80"
+alias web8000="python -m http.server 8000"
+alias smtpserver="python2 -m smtpd -n -c $1 :25"
+alias open="xdg-open"
+alias vimrc="vi ~/.vimrc"
+alias del="rm -rf "
+alias size="du -hs "
+alias .="cd .."
+alias ..="cd ../../"
+alias ...="cd ../../../"
+alias rm="rm -v"
+alias ifconfig+='ip addr | grep UP | cut -f2 -d":"'
+alias :q="exit"
+alias :x="exit"
+alias :q!="exit"
+alias gc="git clone"
+alias gc+="sudo git clone"
+alias ga.="git add ."
+alias ga="git add"
+alias gcm="git commit -m"
+alias gpo="git push origin"
+alias gp="git push"
+alias gpu="git push upstream"
+alias gpul="git pull"
+alias lbzip="lbzip2 -v"
+alias bunzip="bunzip -v"
+alias tmuxks="tmux kill-session -t"
+alias gui="xdg-open ."
+
+
+
 
 # added by pipsi (https://github.com/mitsuhiko/pipsi)
 export PATH="/home/op/.local/bin:$PATH"
