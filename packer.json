@@ -148,6 +148,8 @@
 				"echo \"@hunter_key = '{{ user `hunter_key` }}'\" >> /home/op/recon/emailgen/tokens.rb",
                 "echo 'Installing wpscan'",
 		    	"gem install wpscan",
+		"echo 'Installing gopherus'",
+		    "git clone https://github.com/tarunkant/Gopherus.git /home/op/recon/gopherus && cd /home/op/recon/gopherus && chmod +x install.sh && sudo ./install.sh"
 		"echo 'Installing websy'",
                 	"git clone https://github.com/cYph3r1337/websy /home/op/recon/websy && cd /home/op/recon/websy && python3 -m pip install -r requirements.txt",
                 "echo 'Installing Photon'",
