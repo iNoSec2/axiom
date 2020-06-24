@@ -154,7 +154,6 @@
                 "cd /home/op/recon/emailgen && bundle update --bundler",
                 "cd /home/op/recon/emailgen && bundle install",
 				"echo \"@hunter_key = '{{ user `hunter_key` }}'\" >> /home/op/recon/emailgen/tokens.rb",
-<<<<<<< HEAD
                 "echo 'Installing wpscan'",
 		    	"gem install wpscan",
 		"echo 'Installing gopherus'",
@@ -173,14 +172,11 @@
        			 "/bin/su -l op -c 'GO111MODULE=on go get -u -v github.com/hahwul/dalfox'",
 		"echo Installing subzy",
         		"/bin/su -l op -c 'go get -u -v github.com/lukasikic/subzy'",
-		"echo 'Installing Httprobe'",
-=======
                 "echo 'Setting up sn0int repository'",
                 "gpg -a --export --keyring /usr/share/keyrings/debian-maintainers.gpg git@rxv.cc | apt-key add - && apt-key adv --keyserver keyserver.ubuntu.com --refresh-keys git@rxv.cc && echo deb http://apt.vulns.sexy stable main >> /etc/apt/sources.list.d/apt-vulns-sexy.list && apt-get update",
                 "echo 'Installing sn0int'",
                 "apt-get -y install sn0int",
                 "echo 'Installing Httprobe'",
->>>>>>> ea9564863bacf736023ac6976699564f5ac30c1a
 				"/bin/su -l op -c 'go get -u github.com/tomnomnom/httprobe'",
 				"/bin/su -l op -c '/snap/bin/doctl auth init -t {{ user `do_key` }}'",
                 "echo 'Installing Neovim Plugin manager'",
