@@ -1,7 +1,7 @@
 #!/bin/bash
 
-names=("allen" "archimedes" "stok" "pry" "chell" "fire" "bango" "cage" "xpn" "luke" "haddix" "omnom" "jobs" "ritchie" "knox" "bleeder" "batman" "blink" "ghost" "metcalf" "hickey" "fightnerd" "pancakes" "kennedy" "jarvis" "unicorn" "medin" "mog" "thl" "cuthbert" "fox" "hunt" "austin" "babbage" "banach" "banzai" "bardeen" "bartik" "bassi" "beaver" "bell" "benz" "black" "blackburn" "blackwell" "bohr" "booth" "borg" "bose" "bouman" "boyd" "brown" "buck" "burnell" "cannon" "carson" "cartwright" "cerf" "chatelet" "cohen" "chaum" "clarke" "colden" "cori" "cray" "curie" "darwin" "davinci" "diffie" "dirac" "dubinsky" "easley" "edison" "einstein" "elbakyan" "elion" "ellis" "engelbart" "euclid" "euler" "faraday" "fermat" "fermi" "franklin" "gagarin" "galileo" "gates" "gauss" "goldberg" "goldstine" "goodall" "gould" "greider" "haibt" "hamilton" "haslett" "hawking" "hellman" "heisenberg" "hermann" "herschel" "hertz" "hodgkin" "hoover" "hopper" "hugle" "hypatia" "jackson" "jang" "jennings" "jepsen" "johnson" "joliot" "jones" "kalam" "kare" "keller" "kepler" "kilby" "kirch" "knuth" "lalande" "lamar" "lamport" "leakey" "lederberg" "lehmann" "lewin" "liskov" "lovelace" "margulis" "matsumoto" "maxwell" "mayer" "mccarthy" "mclaren" "mclean" "mcnulty" "mendel" "merkle" "moore" "morse" "murdock" "moser" "napier" "nash" "neumann" "newton" "nightingale" "nobel" "noyce" "panini" "pare" "pascal" "payne" "perlman" "pike" "ptolemy" "raman" "ride" "ritchie" "rhodes" "robinson""rosalind" "rubin" "saha" "sammet" "sanderson" "satoshi" "shamir" "shannon" "shaw" "shirley""snyder" "solomon" "spence" "stonebraker" "sutherland" "swanson" "swartz" "swirles" "tesla""thompson" "torvalds" "tu" "turing" "volhard" "villani" "wescoff" "wilbur" "wiles" "williams""wilson" "wing" "wozniak" "wright" "wu")
-
+names=("allen""stok" "pry" "chell" "fire" "bango" "cage" "xpn" "luke" "haddix" "omnom" "jobs" "ritchie" "knox" "bleeder" "batman" "blink" "ghost" "metcalf" "hickey" "fightnerd" "pancakes" "kennedy" "jarvis" "unicorn" "medin" "mog" "thl" "cuthbert" "fox" "hunt" "austin" "babbage" "banzai" "bardeen" "bartik" "bassi" "beaver" "bell" "benz" "black""blackwell""booth" "borg" "bose" "boyd" "brown" "buck" "cannon" "carson" "carter" "cerf"  "cohen" "clarke" "colden" "cori" "cray" "curie" "darwin" "davinci" "diffie" "dirac" "edison" "einstein" "elion" "ellis""euclid" "euler" "faraday" "fermat" "fermi" "franklin" "gagarin" "galileo" "gates" "gauss" "goldberg" "goldstine" "goodall" "gould" "greider" "haibt" "hamilton" "haslett" "hawking" "hellman" "heisenberg" "hermann" "herschel" "hertz" "hodgkin" "hoover" "hopper" "hugle" "hypatia" "jackson" "jang" "jennings" "jepsen" "johnson" "joliot" "jones" "kalam" "kare" "keller" "kepler" "kilby" "kirch" "knuth" "lalande" "lamar" "lamport" "leakey" "lederberg" "lehmann" "lewin" "liskov" "lovelace" "margulis" "matsumoto" "maxwell" "mayer" "mccarthy" "mclaren" "mclean" "mcnulty" "mendel" "merkle" "moore" "morse" "murdock" "moser" "napier" "nash" "neumann" "newton" "nightingale" "nobel" "noyce" "panini" "pare" "pascal" "payne" "perlman" "pike" "ptolemy" "raman" "ride" "ritchie" "rhodes" "robinson" "rubin" "saha" "sammet""satoshi" "shamir" "shannon" "shaw" "shirley""snyder" "solomon" "spence" "stonebraker" "sutherland" "swanson" "swartz" "swirles" "tesla""thompson" "torvalds" "tu" "turing" "volhard" "villani" "wescoff" "wilbur" "wiles" "williams""wilson" "wing" "wozniak" "wright" "wu")
+ 
 # Reset
 Color_Off='\033[0m'       # Text Reset
 
@@ -25,7 +25,7 @@ export BPurple='\033[1;35m'      # Purple
 export BCyan='\033[1;36m'        # Cyan
 export BWhite='\033[1;37m'       # White
 
-gen_name="${names[$RANDOM % ${#names[@]} ]}-$((10 + RANDOM % 20))"
+gen_name="${names[$RANDOM % ${#names[@]} ]}$((10 + RANDOM % 20))"
 region="$(jq -r '.region' ~/.axiom/axiom.json)"
 size="$(jq -r '.default_size' ~/.axiom/axiom.json)"
 #domain=$(cat ~/.axiom.json | jq -r '.domain')
@@ -34,8 +34,9 @@ box_name=""
 connect_shell=false
 restore=false
 deploy=false
+expire=false
 
-if [ -z "$1" ] || [[ $1 =~ "shell" ]] || [[ $1 =~ "restore" ]] || [[ $1 =~ "deploy" ]];
+if [ -z "$1" ] || [[ $1 =~ "shell" ]] || [[ $1 =~ "restore" ]] || [[ $1 =~ "deploy" ]] || [[ $1 =~ "size" ]] || [[ $1 =~ "expire" ]];
 then
     name="$gen_name"
 else
@@ -58,6 +59,16 @@ do
         deploy="$(echo "$var" | sed 's/=/ /g' | awk '{ print $2 }')"
         echo -e "${BWhite}Deploying '$deploy' after init${Color_Off}"
     fi
+    if [[ "$var" =~ "--size" ]]
+	then
+		size="$(echo "$var" | sed 's/=/ /g' | awk '{ print $2 }')"
+		echo -e "${BWhite}Manually setting size to '$size'${Color_Off}"
+	fi
+	if [[ "$var" =~ "--expire" ]]
+	then
+		expire="$(echo "$var" | sed 's/=/ /g' | awk '{ print $2 }')"
+		echo -e "${BWhite}Setting expiry to $expire hours...${Color_Off}"
+	fi
 done
 
 notify-send "Axiom Info" "Initializing '$name'..."
@@ -110,14 +121,24 @@ fi
 
 if [ "$restore" != false ]
 then
-	echo -e "${BWhite}Waiting 30 seconds before restore...${Color_Off}"
-	sleep 42
-    ~/.axiom/interact/axiom-restore "$restore"
+	echo -e "${BWhite}Waiting 65 seconds before restore...${Color_Off}"
+	sleep 65
+    ~/.axiom/interact/axiom-restore "$restore" "$name"
 fi
 
 if [ "$deploy" != false ]
 then
 	echo -e "${BWhite}Waiting 30 seconds before deploy... ${Color_Off}"
-	sleep 42
+	sleep 65
 	~/.axiom/interact/axiom-deploy "$deploy"
 fi
+
+if [ "$expire" != false ]
+then
+	echo -e "${BWhite}Waiting 30 seconds before setting expiry... ${Color_Off}"
+	sleep 65
+	~/.axiom/interact/axiom-execb "set-expiry.sh \"$expire minutes\"" "$name"
+fi
+
+
+$HOME/.axiom/interact/header.sh
