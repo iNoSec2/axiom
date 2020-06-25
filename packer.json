@@ -229,7 +229,7 @@
                 "touch /home/op/.profile",
                 "touch /home/op/.z",
                 "chown -R op:users /home/op",
-		"git clone https://github.com/zsh-users/zsh-autosuggestions /home/op/.zsh/zsh-autosuggestions && source /home/op/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh",
+		"git clone https://github.com/zsh-users/zsh-autosuggestions /home/op/.zsh/zsh-autosuggestions",
                 "sudo chmod +x /etc/update-motd.d/00-header"
             ]
         },
